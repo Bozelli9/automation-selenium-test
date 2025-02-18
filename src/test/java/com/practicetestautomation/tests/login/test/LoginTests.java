@@ -1,4 +1,4 @@
-package com.practicetestautomation.tests.login;
+package com.practicetestautomation.tests.login.test;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,13 +11,19 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LoginTests {
     private WebDriver driver;
+    private Logger logger;
 
     @BeforeMethod(alwaysRun = true)
     @Parameters("browser")
     public void setUp(String browser) {
-        System.out.println("Running test in " + browser);
+        logger = Logger.getLogger(LoginTests.class.getName());
+        logger.setLevel(Level.INFO);
+        logger.info("Running test in " + browser);
         switch (browser.toLowerCase()) {
             case "chrome":
                 driver = new ChromeDriver();
@@ -40,16 +46,20 @@ public class LoginTests {
 
     @Test(groups = {"positive", "regression", "smoke"})
     public void testLoginFunctionality() {
+        logger.info("Starting testLoginFuncionality");
 
         WebElement usernameInput = driver.findElement(By.id("username"));
+        logger.info("Type username");
         usernameInput.sendKeys("student");
 
 
         WebElement passwordInput = driver.findElement(By.id("password"));
+        logger.info("Type password");
         passwordInput.sendKeys("Password123");
 
 
         WebElement submitButton = driver.findElement(By.id("submit"));
+        logger.info("Click submit button");
         submitButton.click();
 
         try {
@@ -58,6 +68,7 @@ public class LoginTests {
             throw new RuntimeException(e);
         }
 
+        logger.info("Verify the login funcionality");
         String expectedUrl = "https://practicetestautomation.com/logged-in-successfully/";
         String actualUrl = driver.getCurrentUrl();
         Assert.assertEquals(actualUrl, expectedUrl);
@@ -74,16 +85,19 @@ public class LoginTests {
     @Parameters({"username", "password", "expectedErrorMessage"})
     @Test(groups = {"negative", "regression"})
     public void negativeLoginTest(String username, String password, String expectedErrorMessage) {
-
+        logger.info("Starting negativeLoginTest");
         WebElement usernameInput = driver.findElement(By.id("username"));
+        logger.info("Type username");
         usernameInput.sendKeys(username);
 
 
         WebElement passwordInput = driver.findElement(By.id("password"));
+        logger.info("Type password");
         passwordInput.sendKeys(password);
 
 
         WebElement submitButton = driver.findElement(By.id("submit"));
+        logger.info("Click Submit button");
         submitButton.click();
 
         try {

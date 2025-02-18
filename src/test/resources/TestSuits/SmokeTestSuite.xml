@@ -8,7 +8,7 @@
             </run>
         </groups>
         <classes>
-            <class name="com.practicetestautomation.tests.login.LoginTests"/>
+            <class name="com.practicetestautomation.tests.login.test.LoginTests"/>
         </classes>
     </test>
 </suite>
