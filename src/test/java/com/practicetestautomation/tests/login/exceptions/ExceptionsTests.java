@@ -1,16 +1,17 @@
 package com.practicetestautomation.tests.login.exceptions;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ public class ExceptionsTests {
 
     @BeforeMethod(alwaysRun = true)
     @Parameters("browser")
-    public void setUp(String browser) {
+    public void setUp(@Optional("chrome") String browser) {
         logger = Logger.getLogger(ExceptionsTests.class.getName());
         logger.setLevel(Level.INFO);
         logger.info("Running test in " + browser);
@@ -45,12 +46,16 @@ public class ExceptionsTests {
     }
 
 
-    @Test(groups = {"noSuchElement"})
+    @Test
     public void noSuchElement(){
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         WebElement btnAdd = driver.findElement(By.id("add_btn"));
         btnAdd.click();
 
-        WebElement row = driver.findElement(By.xpath("div[@id='row2']//input"));
+        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+
         Assert.assertTrue(row.isDisplayed());
 
     }
@@ -92,4 +97,42 @@ public class ExceptionsTests {
         WebElement logOutButton = driver.findElement(By.linkText("Log out"));
         Assert.assertTrue(logOutButton.isDisplayed());
     }
+
+    @Test
+    public void timeoutException(){
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+        WebElement btnAdd = driver.findElement(By.id("add_btn"));
+        btnAdd.click();
+
+
+            WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+
+            Assert.assertTrue(row.isDisplayed());
+
+
+    }
+
+    @Test
+    public void ElementNotInteractableException(){
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+
+        WebElement btnAdd = driver.findElement(By.id("add_btn"));
+        btnAdd.click();
+
+        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+        row.sendKeys("text");
+
+        WebElement btnSave = driver.findElement(By.name("Save"));
+        btnSave.click();
+
+        Assert.assertEquals(row.getText(), "text");
+
+
+
+    }
+
+
 }
