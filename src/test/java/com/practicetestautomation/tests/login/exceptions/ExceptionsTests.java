@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.beans.Visibility;
 import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -139,15 +140,38 @@ public class ExceptionsTests {
     @Test
     public void invalidElementException() {
 
-        WebElement row = driver.findElement(By.xpath("//div[@id='row1']/input"));
-        row.clear();
-        row.sendKeys("Sushi");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        String actualText = row.getText();
-        String expectedText = "Sushi";
+        WebElement btnEdit = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("edit_btn")));
+        btnEdit.click();
 
-        Assert.assertEquals(actualText, expectedText, "The text is the same");
+        WebElement rowInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row1']/input")));
+        rowInputField.clear();
+        rowInputField.sendKeys("Sushi");
 
+        WebElement btnSave = driver.findElement(By.xpath("//div[@id='row1']/button[@name='Save']"));
+        btnSave.click();
+
+        WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmation")));
+        String actualMsg = successMessage.getText();
+        String expectedMessage = "Row 1 was saved";
+
+        Assert.assertEquals(actualMsg, expectedMessage, "Message is not expected");
+
+
+    }
+
+    @Test
+    public void staleElementException() {
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement instructionElement = driver.findElement(By.id("instructions"));
+
+        WebElement addButton = driver.findElement(By.id("add_btn"));
+        addButton.click();
+
+        Assert.assertTrue(instructionElement.isDisplayed());
 
 
 
