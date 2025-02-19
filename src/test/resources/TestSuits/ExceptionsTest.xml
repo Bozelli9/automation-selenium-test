@@ -6,7 +6,7 @@
         <classes>
             <class name="com.practicetestautomation.tests.login.exceptions.ExceptionsTests">
             <methods>
-                <include name="elementNotInteractableException"/>
+                <include name="invalidElementException"/>
             </methods>
             </class>
         </classes>

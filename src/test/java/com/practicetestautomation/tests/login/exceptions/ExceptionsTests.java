@@ -47,7 +47,7 @@ public class ExceptionsTests {
 
 
     @Test
-    public void noSuchElement(){
+    public void noSuchElement() {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -99,7 +99,7 @@ public class ExceptionsTests {
     }
 
     @Test
-    public void timeoutException(){
+    public void timeoutException() {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
@@ -107,15 +107,15 @@ public class ExceptionsTests {
         btnAdd.click();
 
 
-            WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
+        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
 
-            Assert.assertTrue(row.isDisplayed());
+        Assert.assertTrue(row.isDisplayed());
 
 
     }
 
     @Test
-    public void elementNotInteractableException(){
+    public void elementNotInteractableException() {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
 
@@ -125,7 +125,7 @@ public class ExceptionsTests {
         WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
         row.sendKeys("text");
 
-        WebElement btnSave = driver.findElement(By.name("Save"));
+        WebElement btnSave = driver.findElement(By.xpath("//div[@id='row2']/button[@name='Save']"));
         btnSave.click();
 
         WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmation")));
@@ -133,9 +133,23 @@ public class ExceptionsTests {
         String expectedMessage = "Row 2 was saved";
 
         Assert.assertEquals(actualMsg, expectedMessage, "Message is not expected");
-
-
     }
 
 
+    @Test
+    public void invalidElementException() {
+
+        WebElement row = driver.findElement(By.xpath("//div[@id='row1']/input"));
+        row.clear();
+        row.sendKeys("Sushi");
+
+        String actualText = row.getText();
+        String expectedText = "Sushi";
+
+        Assert.assertEquals(actualText, expectedText, "The text is the same");
+
+
+
+
+    }
 }
