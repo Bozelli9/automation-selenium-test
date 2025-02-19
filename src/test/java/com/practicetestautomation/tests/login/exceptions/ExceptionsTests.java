@@ -115,7 +115,7 @@ public class ExceptionsTests {
     }
 
     @Test
-    public void ElementNotInteractableException(){
+    public void elementNotInteractableException(){
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
 
@@ -128,8 +128,11 @@ public class ExceptionsTests {
         WebElement btnSave = driver.findElement(By.name("Save"));
         btnSave.click();
 
-        Assert.assertEquals(row.getText(), "text");
+        WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmation")));
+        String actualMsg = successMessage.getText();
+        String expectedMessage = "Row 2 was saved";
 
+        Assert.assertEquals(actualMsg, expectedMessage, "Message is not expected");
 
 
     }
