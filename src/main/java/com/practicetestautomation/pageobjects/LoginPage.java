@@ -4,19 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class LoginPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+public class LoginPage extends BasePage {
     private By userNameInputLocator = By.id("username");
     private By passwordInputLocator = By.id("password");
     private By submitButtonLocator = By.id("submit");
     private By errorMessageLocator = By.id("error");
 
-    public LoginPage(WebDriver driver, WebDriverWait wait){
-        this.driver = driver;
-        this.wait = wait;
+    public LoginPage(WebDriver driver){
+        super(driver);
     }
 
     public void enterUsername(String username){
@@ -31,10 +27,11 @@ public class LoginPage {
         driver.findElement(submitButtonLocator).click();
     }
 
-    public void executeLogin(String username, String password) {
+    public SuccessLoginPage executeLogin(String username, String password) {
         enterUsername(username);
         enterPassword(password);
         clickSubmit();
+        return new SuccessLoginPage(driver);
     }
 
     public String getErrorMessage(){
