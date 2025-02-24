@@ -15,6 +15,10 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    public void visit(){
+        super.visitUrl("https://practicetestautomation.com/practice-test-login/");
+    }
+
     public void enterUsername(String username){
         driver.findElement(userNameInputLocator).sendKeys(username);
     }

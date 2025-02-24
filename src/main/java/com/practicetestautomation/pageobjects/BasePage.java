@@ -16,7 +16,12 @@ public class BasePage {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
-    public String actualUrl(){
+
+    public void visitUrl(String url){
+        driver.get(url);
+    }
+
+    public String actualUrl() {
         return driver.getCurrentUrl();
     }
 
@@ -27,6 +32,15 @@ public class BasePage {
     protected WebElement waitForElement(By locator){
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
+
+    protected boolean isDisplayed(By locator){
+        try {
+            return driver.findElement(locator).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 
 }
