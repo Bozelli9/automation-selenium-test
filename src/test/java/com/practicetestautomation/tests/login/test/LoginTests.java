@@ -37,7 +37,6 @@ public class LoginTests {
         }
 
     }
-
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         driver.quit();

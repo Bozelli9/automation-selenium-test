@@ -1,7 +1,7 @@
 package com.practicetestautomation.tests.login.exceptions;
 
+import com.practicetestautomation.pageobjects.ExceptionsPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,7 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.beans.Visibility;
 import java.time.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,54 +48,10 @@ public class ExceptionsTests {
 
     @Test
     public void noSuchElement() {
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-        WebElement btnAdd = driver.findElement(By.id("add_btn"));
-        btnAdd.click();
-
-        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
-
-        Assert.assertTrue(row.isDisplayed());
-
-    }
-
-    @Test(groups = {"positive", "regression", "smoke"})
-    public void testLoginFunctionality() {
-        logger.info("Starting testLoginFuncionality");
-
-        WebElement usernameInput = driver.findElement(By.id("username"));
-        logger.info("Type username");
-        usernameInput.sendKeys("student");
-
-
-        WebElement passwordInput = driver.findElement(By.id("password"));
-        logger.info("Type password");
-        passwordInput.sendKeys("Password123");
-
-
-        WebElement submitButton = driver.findElement(By.id("submit"));
-        logger.info("Click submit button");
-        submitButton.click();
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        logger.info("Verify the login funcionality");
-        String expectedUrl = "https://practicetestautomation.com/logged-in-successfully/";
-        String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals(actualUrl, expectedUrl);
-
-        String expectedMessage = "Congratulations student. You successfully logged in!";
-        String pageSource = driver.getPageSource();
-        Assert.assertTrue(pageSource.contains(expectedMessage));
-
-
-        WebElement logOutButton = driver.findElement(By.linkText("Log out"));
-        Assert.assertTrue(logOutButton.isDisplayed());
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        exceptionsPage.visit();
+        exceptionsPage.clickButton();
+        Assert.assertTrue(exceptionsPage.waitForDisplayed(),"Row 2 is not displayed");
     }
 
     @Test
