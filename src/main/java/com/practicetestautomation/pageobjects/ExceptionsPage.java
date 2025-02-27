@@ -5,12 +5,35 @@ import org.openqa.selenium.WebDriver;
 
 public class ExceptionsPage extends BasePage {
     private By addButtonLocator = By.id("add_btn");
+    private By row1Locator = By.xpath("//div[@id='row1']/input");
     private By row2Locator = By.xpath("//div[@id='row2']/input");
     private By saveButtonLocator = By.xpath("//div[@id='row2']/button[@name='Save']");
     private By msgConfirmation = By.id("confirmation");
+    private By editButtonLocator = By.id("edit_btn");
+    private By instructionLocator = By.id("instructions");
 
     public ExceptionsPage(WebDriver driver){
         super(driver);
+    }
+
+    public boolean isEditButtonLocatorAfterWait(){
+        return waitIsDisplayed(editButtonLocator);
+    }
+
+    public boolean instructionIsDisplayed(){
+        return isNotDisplayed(instructionLocator);
+    }
+
+    public void clickEditButton(){
+        driver.findElement(editButtonLocator).click();
+    }
+
+    public void foodKeysRow1(String name){
+        driver.findElement(row1Locator).sendKeys(name);
+    }
+
+    public void clearName(){
+        driver.findElement(row1Locator).clear();
     }
 
     public void visit(){

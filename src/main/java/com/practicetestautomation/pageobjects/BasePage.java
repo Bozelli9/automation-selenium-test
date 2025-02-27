@@ -41,6 +41,15 @@ public class BasePage {
         }
     }
 
+    protected boolean isNotDisplayed(By locator){
+        try {
+            waitForElement(locator);
+            return false;
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
     protected boolean waitIsDisplayed(By locator) {
         try {
             waitForElement(locator);
