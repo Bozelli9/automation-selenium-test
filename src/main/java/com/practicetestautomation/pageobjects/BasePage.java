@@ -12,12 +12,12 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    public BasePage(WebDriver driver){
+    public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void visitUrl(String url){
+    public void visitUrl(String url) {
         driver.get(url);
     }
 
@@ -25,15 +25,15 @@ public class BasePage {
         return driver.getCurrentUrl();
     }
 
-    public String getPageSource(){
+    public String getPageSource() {
         return driver.getPageSource();
     }
 
-    protected WebElement waitForElement(By locator){
+    protected WebElement waitForElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    protected boolean isDisplayed(By locator){
+    protected boolean isDisplayed(By locator) {
         try {
             return driver.findElement(locator).isDisplayed();
         } catch (Exception e) {
@@ -41,14 +41,13 @@ public class BasePage {
         }
     }
 
-     protected boolean waitIsDisplayed(By locator) {
-         try {
-             waitForElement(locator);
-             return true;
-         } catch (Exception e) {
-             return false;
-         }
+    protected boolean waitIsDisplayed(By locator) {
+        try {
+            waitForElement(locator);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
 
-
-     }
+    }
 }

@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ExceptionsTests {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ExceptionsTests.class);
     private WebDriver driver;
     private Logger logger;
 
@@ -37,7 +39,6 @@ public class ExceptionsTests {
                 break;
         }
 
-        driver.get("https://practicetestautomation.com/practice-test-exceptions/");
     }
 
     @AfterMethod(alwaysRun = true)
@@ -48,47 +49,39 @@ public class ExceptionsTests {
 
     @Test
     public void noSuchElement() {
+
         ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        logger.info("Opening Browser");
         exceptionsPage.visit();
+        logger.info("Clicking button");
         exceptionsPage.clickButton();
-        Assert.assertTrue(exceptionsPage.waitForDisplayed(),"Row 2 is not displayed");
+        Assert.assertTrue(exceptionsPage.isRowTwoDisplayedAfterWait(),"Row 2 is not displayed");
     }
 
     @Test
     public void timeoutException() {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-
-        WebElement btnAdd = driver.findElement(By.id("add_btn"));
-        btnAdd.click();
-
-
-        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
-
-        Assert.assertTrue(row.isDisplayed());
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        logger.info("Opening Browser");
+        exceptionsPage.visit();
+        logger.info("Clicking button");
+        exceptionsPage.clickButton();
+        Assert.assertTrue(exceptionsPage.isRowTwoDisplayedAfterWait(),"Row 2 is not displayed");
 
 
     }
 
     @Test
     public void elementNotInteractableException() {
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
-
-        WebElement btnAdd = driver.findElement(By.id("add_btn"));
-        btnAdd.click();
-
-        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='row2']/input")));
-        row.sendKeys("text");
-
-        WebElement btnSave = driver.findElement(By.xpath("//div[@id='row2']/button[@name='Save']"));
-        btnSave.click();
-
-        WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("confirmation")));
-        String actualMsg = successMessage.getText();
-        String expectedMessage = "Row 2 was saved";
-
-        Assert.assertEquals(actualMsg, expectedMessage, "Message is not expected");
+        ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
+        logger.info("Opening Browser");
+        exceptionsPage.visit();
+        logger.info("Clicking button");
+        exceptionsPage.clickButton();
+        exceptionsPage.isRowTwoDisplayedAfterWait();
+        exceptionsPage.foodKeys("Sushi");
+        exceptionsPage.clickSaveButton();
+        Assert.assertEquals(exceptionsPage.getSucessMessage(), "Row 2 was saved", "Message is not expected");
     }
 
 
