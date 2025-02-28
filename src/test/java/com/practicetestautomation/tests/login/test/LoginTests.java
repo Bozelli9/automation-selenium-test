@@ -14,9 +14,7 @@ import org.testng.annotations.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LoginTests {
-    private WebDriver driver;
-    private Logger logger;
+public class LoginTests extends BaseTest{
 
     @BeforeMethod(alwaysRun = true)
     @Parameters("browser")

@@ -1,51 +1,16 @@
 package com.practicetestautomation.tests.login.exceptions;
 
 import com.practicetestautomation.pageobjects.ExceptionsPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.slf4j.LoggerFactory;
+import com.practicetestautomation.tests.login.test.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import java.time.Duration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class ExceptionsTests {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ExceptionsTests.class);
-    private WebDriver driver;
-    private Logger logger;
-
-    @BeforeMethod(alwaysRun = true)
-    @Parameters("browser")
-    public void setUp(@Optional("chrome") String browser) {
-        logger = Logger.getLogger(ExceptionsTests.class.getName());
-        logger.setLevel(Level.INFO);
-        logger.info("Running test in " + browser);
-        switch (browser.toLowerCase()) {
-            case "chrome":
-                driver = new ChromeDriver();
-                break;
-            case "firefox":
-                driver = new FirefoxDriver();
-                break;
-            default:
-                driver = new ChromeDriver();
-                break;
-        }
-
-    }
-
-    @AfterMethod(alwaysRun = true)
-    public void tearDown() {
-        driver.quit();
-    }
-
+public class ExceptionsTests extends BaseTest {
 
     @Test
     public void noSuchElement() {
-
+        
         ExceptionsPage exceptionsPage = new ExceptionsPage(driver);
         logger.info("Opening Browser");
         exceptionsPage.visit();
@@ -90,7 +55,7 @@ public class ExceptionsTests {
         exceptionsPage.clickEditButton();
         exceptionsPage.clearName();
         exceptionsPage.foodKeysRow1("Sushi");
-        exceptionsPage.clickSaveButton();
+        exceptionsPage.clickSaveButtonRow1();
 
         Assert.assertEquals(exceptionsPage.getSucessMessage(), "Row 1 was saved", "Row 1 is not saved");
 

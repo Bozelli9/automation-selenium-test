@@ -39,4 +39,11 @@
             </class>
         </classes>
     </test>
+    
+    <test name="Exception Tests">
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="com.practicetestautomation.tests.login.exceptions.ExceptionsTests"></class>
+        </classes>
+    </test>
 </suite>

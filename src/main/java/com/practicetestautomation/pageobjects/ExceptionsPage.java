@@ -7,6 +7,7 @@ public class ExceptionsPage extends BasePage {
     private By addButtonLocator = By.id("add_btn");
     private By row1Locator = By.xpath("//div[@id='row1']/input");
     private By row2Locator = By.xpath("//div[@id='row2']/input");
+    private By saveButtonLocatorRow1 = By.xpath("//div[@id='row1']/button[@name='Save']");
     private By saveButtonLocator = By.xpath("//div[@id='row2']/button[@name='Save']");
     private By msgConfirmation = By.id("confirmation");
     private By editButtonLocator = By.id("edit_btn");
@@ -14,10 +15,6 @@ public class ExceptionsPage extends BasePage {
 
     public ExceptionsPage(WebDriver driver){
         super(driver);
-    }
-
-    public boolean isEditButtonLocatorAfterWait(){
-        return waitIsDisplayed(editButtonLocator);
     }
 
     public boolean instructionIsDisplayed(){
@@ -58,6 +55,10 @@ public class ExceptionsPage extends BasePage {
 
     public void clickSaveButton(){
         driver.findElement(saveButtonLocator).click();
+    }
+
+    public void clickSaveButtonRow1(){
+        driver.findElement(saveButtonLocatorRow1).click();
     }
 
 }

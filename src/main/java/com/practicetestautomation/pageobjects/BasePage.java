@@ -43,10 +43,10 @@ public class BasePage {
 
     protected boolean isNotDisplayed(By locator){
         try {
-            waitForElement(locator);
-            return false;
-        } catch (Exception e) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
             return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 
